@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreQuiz", "CoreQuiz\CoreQuiz.csproj", "{4EB06681-10DF-4E5E-A187-45D1FAE91943}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EB06681-10DF-4E5E-A187-45D1FAE91943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB06681-10DF-4E5E-A187-45D1FAE91943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB06681-10DF-4E5E-A187-45D1FAE91943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB06681-10DF-4E5E-A187-45D1FAE91943}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D808C05-4353-4D0F-ADB6-E604DC0FFE75}
+	EndGlobalSection
+EndGlobal
