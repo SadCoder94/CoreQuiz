@@ -9,6 +9,14 @@ namespace CoreQuiz
         {
             QuestionList questionList = Initiate();
             DisplayQuestions(questionList);
+            SortQuestions("asc", questionList);
+            Console.WriteLine("in ascending order");
+            DisplayQuestions(questionList);
+
+            SortQuestions("desc", questionList);
+            Console.WriteLine("in descending order");
+            DisplayQuestions(questionList);
+
             Console.ReadKey();
         }
 
@@ -48,6 +56,19 @@ namespace CoreQuiz
             for (int i = 0; i < questions.length(); i++)
             {
                 questions[i].GetQuestion(i + 1);
+            }
+        }
+
+        public static void SortQuestions(string option,QuestionList questions)
+        {
+           switch(option)
+            {
+                case "asc":
+                    questions.Sort();
+                    break;
+                case "desc":
+                    questions.SortDesc();
+                    break;
             }
         }
     }

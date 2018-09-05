@@ -38,5 +38,10 @@ namespace CoreQuiz
                 Console.WriteLine("Options " + string.Join(",", this._options));
             }
         }
+
+        public DateTime GetTime()
+        {
+            return this._time;
+        }
     }
 }

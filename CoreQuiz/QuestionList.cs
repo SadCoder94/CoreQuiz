@@ -25,5 +25,36 @@ namespace CoreQuiz
             return this._list.Count;
         }
         
+        public void Sort()
+        {
+            List<Question> questions= this._list;
+            questions.Sort(
+                delegate (Question o1,Question o2)
+                {
+                    if(o1.GetTime().CompareTo(o2.GetTime())>=0)
+                    {
+                        return 1;
+                    }
+
+                    return 0;
+                });
+            this._list = questions;
+        }
+
+        public void SortDesc()
+        {
+            List<Question> questions = this._list;
+            questions.Sort(
+                delegate (Question o1, Question o2)
+                {
+                    if (o1.GetTime().CompareTo(o2.GetTime()) < 0)
+                    {
+                        return 1;
+                    }
+
+                    return 0;
+                });
+            this._list = questions;
+        }
     }
 }
