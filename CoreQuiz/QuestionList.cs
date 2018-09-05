@@ -19,6 +19,11 @@ namespace CoreQuiz
                 _list.Add(value);
             }
         }
+
+        public int length()
+        {
+            return this._list.Count;
+        }
         
     }
 }

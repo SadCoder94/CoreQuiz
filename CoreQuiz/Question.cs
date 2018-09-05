@@ -28,8 +28,15 @@ namespace CoreQuiz
 
         public void GetQuestion(int i)
         {
-            Console.WriteLine("Question {0} {1}", i, this._question);
-            Console.WriteLine("Options " + string.Join(",", this._options));
+            if(i < 0)
+            {
+                Console.WriteLine("No elements in list");
+            }
+            else
+            {
+                Console.WriteLine("Question {0} {1}", i, this._question);
+                Console.WriteLine("Options " + string.Join(",", this._options));
+            }
         }
     }
 }

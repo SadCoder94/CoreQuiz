@@ -7,13 +7,14 @@ namespace CoreQuiz
     {
         static void Main(string[] args)
         {
-            Initiate();
+            QuestionList questionList = Initiate();
+            DisplayQuestions(questionList);
             Console.ReadKey();
         }
 
-        public static void Initiate()
+        public static QuestionList Initiate()
         {
-            var questions = new QuestionList();
+            QuestionList questions = new QuestionList();
             bool choice = true;
             int q_no = 0;
             string[] temp_ops = new string[4];
@@ -39,14 +40,16 @@ namespace CoreQuiz
 
             } while (choice);
 
-
-            for (int i = 0; i < q_no; i++)
-            {
-                questions[i].GetQuestion(i + 1);
-
-            }
+            return questions;
         }
 
+        public static void DisplayQuestions(QuestionList questions)
+        {
+            for (int i = 0; i < questions.length(); i++)
+            {
+                questions[i].GetQuestion(i + 1);
+            }
+        }
     }
     
 }
