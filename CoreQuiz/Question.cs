@@ -6,30 +6,30 @@ namespace CoreQuiz
 {
     class Question
     {
-        private string question;
-        private string[] options = new string[4];
-        private DateTime time;
+        private string _question;
+        private string[] _options = new string[4];
+        private DateTime _time;
 
         public Question()
         {
-            this.question = String.Empty;
+            this._question = String.Empty;
             for (int i = 0; i < 4; i++)
             {
-                this.options[i] = String.Empty;
+                this._options[i] = String.Empty;
             }
         }
 
         public Question(string question, string[] options)
         {
-            this.question = question;
-            this.options = options;
-            this.time = DateTime.Now;
+            this._question = question;
+            this._options = options;
+            this._time = DateTime.Now;
         }
 
         public void GetQuestion(int i)
         {
-            Console.WriteLine("Question {0} {1}", i, this.question);
-            Console.WriteLine("Options " + string.Join(",", this.options));
+            Console.WriteLine("Question {0} {1}", i, this._question);
+            Console.WriteLine("Options " + string.Join(",", this._options));
         }
     }
 }
