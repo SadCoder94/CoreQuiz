@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CoreQuiz
 {
-    class Question
+    public class Question
     {
         private string _question;
         private string[] _options = new string[4];
