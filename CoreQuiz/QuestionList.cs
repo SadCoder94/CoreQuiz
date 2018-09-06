@@ -31,7 +31,7 @@ namespace CoreQuiz
             questions.Sort(
                 delegate (Question o1,Question o2)
                 {
-                    if(o1.GetTime().CompareTo(o2.GetTime())>=0)
+                    if(o1.time.CompareTo(o2.time)>=0)
                     {
                         return 1;
                     }
@@ -47,7 +47,7 @@ namespace CoreQuiz
             questions.Sort(
                 delegate (Question o1, Question o2)
                 {
-                    if (o1.GetTime().CompareTo(o2.GetTime()) < 0)
+                    if (o1.time.CompareTo(o2.time) < 0)
                     {
                         return 1;
                     }

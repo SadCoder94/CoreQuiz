@@ -7,42 +7,51 @@ namespace CoreQuiz
     {
         static void Main(string[] args)
         {
-            QuestionList questionList = Initiate();
-            DisplayQuestions(questionList);
-            SortQuestions("asc", questionList);
-            Console.WriteLine("in ascending order");
-            DisplayQuestions(questionList);
+            Program program = new Program();
 
-            SortQuestions("desc", questionList);
-            Console.WriteLine("in descending order");
-            DisplayQuestions(questionList);
+            QuestionList questionList = program.Initiate();
+            program.DisplayQuestions(questionList);
+            
+            program.SortQuestions("asc", questionList);
+            Console.WriteLine("-----in ascending order-----");
+            program.DisplayQuestions(questionList);
+
+            program.SortQuestions("desc", questionList);
+            Console.WriteLine("-----in descending order-----");
+            program.DisplayQuestions(questionList);
 
             Console.ReadKey();
         }
 
-        public static QuestionList Initiate()
+        public QuestionList Initiate()
         {
             QuestionList questions = new QuestionList();
             bool choice = true;
             int q_no = 0;
-            string[] temp_ops = new string[4];
             string temp_ques = String.Empty;
 
             Console.WriteLine("Welcome to quiz maker");
 
             do
             {
-                Console.WriteLine("Enter question {0}", q_no + 1);
-                temp_ques = Console.ReadLine();
+                Question new_ques = new Question();
+
+                do
+                {
+                    Console.WriteLine("Enter Question");
+                    temp_ques = Console.ReadLine();
+                } while (!temp_ques.EndsWith("?"));
+                
+                new_ques.question = temp_ques;
 
                 for (int i = 0; i < 4; i++)
                 {
                     Console.WriteLine("Enter option {0}", i + 1);
-                    temp_ops[i] = Console.ReadLine();
+                    new_ques.options[i] = Console.ReadLine();
                 }
 
-                questions[q_no] = new Question(temp_ques, temp_ops);
-                q_no += 1;
+                questions[q_no] = new_ques;
+                q_no ++;
                 Console.WriteLine("Do you want to enter another question ? y/n");
                 choice = Console.ReadLine() == "y" ? true : false;
 
@@ -51,7 +60,12 @@ namespace CoreQuiz
             return questions;
         }
 
-        public static void DisplayQuestions(QuestionList questions)
+        //public string GetQuestion()
+        //{
+        //    Console.WriteLine("Enter Question");
+        //    return Console.ReadLine();
+        //}
+        public void DisplayQuestions(QuestionList questions)
         {
             for (int i = 0; i < questions.length(); i++)
             {
@@ -59,7 +73,7 @@ namespace CoreQuiz
             }
         }
 
-        public static void SortQuestions(string option,QuestionList questions)
+        public void SortQuestions(string option,QuestionList questions)
         {
            switch(option)
             {

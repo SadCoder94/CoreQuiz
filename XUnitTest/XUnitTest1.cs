@@ -15,8 +15,6 @@ namespace XUnitTest
             var obj = new Question(ques, ops);
             Assert.Contains("?",obj.question);
         }
-
-
         
     }
 }
