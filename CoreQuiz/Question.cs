@@ -43,5 +43,54 @@ namespace CoreQuiz
         {
             return this._time;
         }
+
+        public string question
+        {
+            get
+            {
+                return this._question;
+            }
+            set
+            {
+                if (value.Contains('?') == false)
+                {
+                    throw new InvalidQuestionFormatException("enter a valid question ending with \"?\"");
+                }
+                else
+                    this._question = value;
+            }
+        }
+
+        public string[] options
+        {
+            get
+            {
+                return this._options;
+            }
+            set
+            {
+                if (value.Length <=0)
+                {
+                    throw new InvalidOptionsException("enter valid options ");
+                }
+                else
+                    this._options = value;
+            }
+        }
+
+        public DateTime time
+        {
+            get
+            {
+                return this._time;
+            }
+            set
+            {
+                if (!DateTime.TryParse(value.ToString(),out this._time ))
+                {
+                    throw new InvalidOptionsException("enter a valid time ");
+                }
+            }
+        }
     }
 }
