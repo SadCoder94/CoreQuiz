@@ -13,7 +13,7 @@ namespace QuizLibrary
         string[] temp_ops = new string[4];
         DataSourceLinker dataSourceLinker;
 
-
+        
         public bool AddQuestions()
         {
             Question new_q = new Question();
@@ -149,6 +149,7 @@ namespace QuizLibrary
             int choice = 0;
             Console.WriteLine("Welcome to quiz maker");
             _questionList = GetAllQuestions();
+            id_no = Convert.ToInt32(_questionList[_questionList.Count -1].Id.Substring(2));
             do
             {
                 Console.WriteLine("Press 1. To add new Question" +
@@ -234,7 +235,7 @@ namespace QuizLibrary
             Console.WriteLine("Quiz:-");
             foreach (Question item in _questionList)
             {
-                item.ToString();
+                Console.WriteLine(item.ToString());
             }
         }
     }

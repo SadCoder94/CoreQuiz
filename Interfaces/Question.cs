@@ -13,7 +13,7 @@ namespace QuizLibrary
 
         public Question()
         {
-            //options.Initialize();
+            
         }
 
         public override string ToString()
