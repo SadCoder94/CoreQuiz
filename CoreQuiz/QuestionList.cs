@@ -6,9 +6,9 @@ namespace CoreQuiz
 {
     class QuestionList
     {
-        private List<Question> _list = new List<Question>();
+        private List<MCQQuestion> _list = new List<MCQQuestion>();
 
-        public Question this[int i]
+        public MCQQuestion this[int i]
         {
             get
             {
@@ -27,11 +27,11 @@ namespace CoreQuiz
         
         public void Sort()
         {
-            List<Question> questions= this._list;
+            List<MCQQuestion> questions= this._list;
             questions.Sort(
-                delegate (Question o1,Question o2)
+                delegate (MCQQuestion o1,MCQQuestion o2)
                 {
-                    if(o1.time.CompareTo(o2.time)>=0)
+                    if(o1.GetTime().CompareTo(o2.GetTime()) >=0)
                     {
                         return 1;
                     }
