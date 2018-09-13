@@ -118,29 +118,31 @@ namespace QuizLibrary
             return dataSourceLinker.GetData(questionId);
         }
 
-        public Question UpdateQuestion(string questionId)
+        public Question UpdateQuestion(Question question)
         {
-            
-            foreach (Question item in _questionList)
-            {
-                if(item.Id==questionId)
-                    return Update(item);
-            }
-            return null;
-        }
-
-        public Question Update(Question param_question)
-        { 
-            if(param_question.Question_type=="MCQ")
-                Console.WriteLine("Question: {0}\nOptions: {1}\nCorrect Answer: {2}",param_question.Question_statement,string.Join(',',param_question.Options),param_question.CorrectAnswer);
+            if (question.Question_type == "MCQ")
+                Console.WriteLine("Question: {0}\nOptions: {1}\nCorrect Answer: {2}", question.Question_statement, string.Join(',', question.Options), question.CorrectAnswer);
             else
-                Console.WriteLine("Question: {0}\nCorrect Answer: {1}", param_question.Question_statement, param_question.CorrectAnswer);
+                Console.WriteLine("Question: {0}\nCorrect Answer: {1}", question.Question_statement, question.CorrectAnswer);
 
             Console.WriteLine("Enter new question");
-            param_question.Question_statement = Console.ReadLine();
-            
-            return param_question;
+            question.Question_statement = Console.ReadLine();
+
+            return question;
         }
+
+        //public Question Update(Question param_question)
+        //{ 
+        //    if(param_question.Question_type=="MCQ")
+        //        Console.WriteLine("Question: {0}\nOptions: {1}\nCorrect Answer: {2}",param_question.Question_statement,string.Join(',',param_question.Options),param_question.CorrectAnswer);
+        //    else
+        //        Console.WriteLine("Question: {0}\nCorrect Answer: {1}", param_question.Question_statement, param_question.CorrectAnswer);
+
+        //    Console.WriteLine("Enter new question");
+        //    param_question.Question_statement = Console.ReadLine();
+            
+        //    return param_question;
+        //}
 
         public void Initiate()
         {
@@ -149,7 +151,11 @@ namespace QuizLibrary
             _questionList = GetAllQuestions();
             do
             {
-                Console.WriteLine("Press 1. To add new Question\nPress 2. To delete Questions\nPress 3. To show all Questions\nPress 4. To update a Question\nPress 5. To exit");
+                Console.WriteLine("Press 1. To add new Question" +
+                    "\nPress 2. To delete Questions" +
+                    "\nPress 3. To show all Questions" +
+                    "\nPress 4. To update a Question" +
+                    "\nPress 5. To exit");
                 choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -175,9 +181,21 @@ namespace QuizLibrary
                         DisplayQuizQuestions();
                         break;
                     case 4:
-                        Console.WriteLine("Enter question to update");
+                        Console.WriteLine("Enter question id to update");
                         temp_ques = Console.ReadLine();
-                        UpdateQuestion(temp_ques);
+                        Question updated_ques = new Question();
+
+                        foreach (var item in _questionList)
+                        {
+                            if(item.Id==temp_ques)
+                            {
+                                updated_ques = UpdateQuestion(item);
+                                int index=_questionList.IndexOf(item);
+                                _questionList.Remove(item);
+                                _questionList.Insert(index, item);
+                            }
+                               
+                        }
                         break;
                     default:
                         break;

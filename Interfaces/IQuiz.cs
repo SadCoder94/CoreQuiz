@@ -8,7 +8,7 @@ namespace QuizLibrary
         Question GetQuestionById(string questionId);
         bool AddQuestions();
         bool DeleteQuestion(string questionId);
-        Question UpdateQuestion(string questionId);
+        Question UpdateQuestion(Question question);
         void Initiate();
         void DisplayQuizQuestions();
     }
