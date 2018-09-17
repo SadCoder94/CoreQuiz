@@ -6,7 +6,7 @@ namespace QuizLibrary
     {
         List<Question> GetAllQuestions();
         Question GetQuestionById(string questionId);
-        bool AddQuestions();
+        bool AddQuestion(Question new_q);
         bool DeleteQuestion(string questionId);
         Question UpdateQuestion(Question question);
         void Initiate();

@@ -1,21 +1,58 @@
-using System;
 using Xunit;
-using CoreQuiz;
+using QuizLibrary;
+using System.Collections.Generic;
+using System;
 
 namespace XUnitTest
 {
-    public class XUnitTest1
+    public class XUnitTest1 : IDisposable
     {
-        [Theory]
-        [InlineData("ques")]
-        [InlineData("ques?")]
-        public void PassContainsQMark(string ques)
+        QuizManager quizManager;
+        //public List<Question> list;
+        DataSourceLinker dataSourceLinker;
+
+        public XUnitTest1()
         {
-            string[] ops = { "qw", "we", "er", "rt" };
-            var obj = new Question(ques, ops);
-            Assert.Contains("?",obj.question);
+            quizManager = new QuizManager();
+            //list = new List<Question>();
+            dataSourceLinker = new DataSourceLinker();
         }
         
+        [Fact]
+        public void TestAddQuestion()
+        {
+            Question trial = new Question
+            {
+                CorrectAnswer = "a",
+                Question_statement = "asd ?",
+                Id = "Q_11",
+                Question_type = "Subjective",
+                Time = DateTime.UtcNow
+            };
 
+            //list.Add(trial);
+            //dataSourceLinker.AddData(quizManager.GetList());
+            Assert.True(quizManager.AddQuestion(trial));
+        }
+
+        [Fact]
+        public void TestDeleteQuestionWhenListEmpty()
+        {
+            string id = "Q_11";
+            if(quizManager.Count()==0)
+              Assert.False(quizManager.DeleteQuestion(id));
+        }
+
+        [Fact]
+        public void TestListQuestionsExist()
+        {
+            Assert.NotEmpty(quizManager.GetList());
+        }
+
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

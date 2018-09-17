@@ -5,16 +5,30 @@ namespace QuizLibrary
 {
     public class QuizManager : IQuiz
     {
-        private List<Question> _questionList;
+        private List<Question> _questionList=new List<Question>();
         public static int id_no = 0;
-        bool choice = true;
-        int q_no = 0;
+        //bool choice = true;
+        //int q_no = 0;
         string temp_ques = String.Empty, c_ans = String.Empty, ques_id = String.Empty, ques_type = String.Empty;
         string[] temp_ops = new string[4];
         DataSourceLinker dataSourceLinker;
 
         
-        public bool AddQuestions()
+        public bool AddQuestion(Question new_q)
+        {
+            try
+            {
+                _questionList.Add(new_q);
+                return true;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error in adding Question.");
+                return false;
+            }
+            
+        }
+        public bool GetQuestionInformation()
         {
             Question new_q = new Question();
             bool flag = true;
@@ -28,7 +42,7 @@ namespace QuizLibrary
                 {
                     new_q.Question_type = "MCQ";
                 }
-                else if(ques_type=="2")
+                else if (ques_type == "2")
                 {
                     new_q.Question_type = "Subjective";
                 }
@@ -75,35 +89,32 @@ namespace QuizLibrary
             new_q.CorrectAnswer = c_ans;
 
             new_q.Time = DateTime.UtcNow;
-            new_q.Id = "Q_"+id_no.ToString();
+            new_q.Id = "Q_" + id_no.ToString();
             id_no++;
 
-            try
-            {
-                _questionList.Add(new_q);
-                return true;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error in adding Question.");
-                return false;
-            }
-            
+            return AddQuestion(new_q);
         }
 
         public bool DeleteQuestion(string questionId)
         {
-            foreach (Question item in _questionList)
+            try
             {
-                if (item.Id==questionId)
+                foreach (Question item in _questionList)
                 {
-                    _questionList.Remove(item);
-                    return true;
+                    if (item.Id == questionId)
+                    {
+                        _questionList.Remove(item);
+                        return true;
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error in deleting question");
+                return false;
             }
 
             return false;
-
         }
 
         public List<Question> GetAllQuestions()
@@ -131,25 +142,23 @@ namespace QuizLibrary
             return question;
         }
 
-        //public Question Update(Question param_question)
-        //{ 
-        //    if(param_question.Question_type=="MCQ")
-        //        Console.WriteLine("Question: {0}\nOptions: {1}\nCorrect Answer: {2}",param_question.Question_statement,string.Join(',',param_question.Options),param_question.CorrectAnswer);
-        //    else
-        //        Console.WriteLine("Question: {0}\nCorrect Answer: {1}", param_question.Question_statement, param_question.CorrectAnswer);
-
-        //    Console.WriteLine("Enter new question");
-        //    param_question.Question_statement = Console.ReadLine();
-            
-        //    return param_question;
-        //}
+        public void DisplayQuizQuestions()
+        {
+            Console.WriteLine("Quiz:-");
+            foreach (Question item in _questionList)
+            {
+                Console.WriteLine(item.ToString());
+            }
+        }
 
         public void Initiate()
         {
             int choice = 0;
             Console.WriteLine("Welcome to quiz maker");
             _questionList = GetAllQuestions();
+            if(_questionList.Count !=0)
             id_no = Convert.ToInt32(_questionList[_questionList.Count -1].Id.Substring(2));
+
             do
             {
                 Console.WriteLine("Press 1. To add new Question" +
@@ -161,10 +170,11 @@ namespace QuizLibrary
                 switch (choice)
                 {
                     case 1:
-                        if (AddQuestions())
+                        if (GetQuestionInformation())
                         {
                             Console.WriteLine("Successfully added question");
                         }
+                        dataSourceLinker.AddData(_questionList);
                         break;
                     case 2:
                         Console.WriteLine("Enter id of question to delete");
@@ -177,6 +187,7 @@ namespace QuizLibrary
                         {
                             Console.WriteLine("Question not found");
                         }
+                        dataSourceLinker.AddData(_questionList);
                         break;
                     case 3:
                         DisplayQuizQuestions();
@@ -197,27 +208,28 @@ namespace QuizLibrary
                             }
                                
                         }
+                        dataSourceLinker.AddData(_questionList);
                         break;
                     default:
                         break;
                 }
             } while (choice<4);
 
-            dataSourceLinker.AddData(_questionList);
+            //dataSourceLinker.AddData(_questionList);
         }
 
-        public void CreateQuiz()
-        {
-            Console.WriteLine("Welcome to quiz maker");
-            do
-            {                
-                AddQuestions();
-                q_no++;
-                Console.WriteLine("Do you want to enter another question ? y/n");
-                choice = Console.ReadLine() == "y" ? true : false;
+        //public void CreateQuiz()
+        //{
+        //    Console.WriteLine("Welcome to quiz maker");
+        //    do
+        //    {                
+        //        AddQuestions();
+        //        q_no++;
+        //        Console.WriteLine("Do you want to enter another question ? y/n");
+        //        choice = Console.ReadLine() == "y" ? true : false;
 
-            } while (choice);
-        }
+        //    } while (choice);
+        //}
 
         private string GetVerifiedQuestion()
         {
@@ -230,13 +242,19 @@ namespace QuizLibrary
             return temp_ques;
         }
 
-        public void DisplayQuizQuestions()
+        public List<Question> GetList()
         {
-            Console.WriteLine("Quiz:-");
-            foreach (Question item in _questionList)
-            {
-                Console.WriteLine(item.ToString());
-            }
+            return _questionList;
+        }
+
+        public void PutList()
+        {
+            _questionList = GetAllQuestions();
+        }
+
+        public int Count()
+        {
+            return _questionList.Count;
         }
     }
 }
