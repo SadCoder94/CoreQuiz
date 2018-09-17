@@ -54,6 +54,15 @@ namespace XUnitTest
         }
 
         [Fact]
+        public void TestDeleteQuestionwhenListEmpty()
+        {
+            
+            string id = "Q_13";
+
+            Assert.False(quizManager.DeleteQuestion(id));
+        }
+
+        [Fact]
         public void TestUpdateQuestions()
         {
             
@@ -84,7 +93,6 @@ namespace XUnitTest
             quizManager.UpdateQuestion(list[1],"fgd?");
             Assert.Equal("fgd?", list[1].Question_statement);
         }
-
 
         public void Dispose()
         {

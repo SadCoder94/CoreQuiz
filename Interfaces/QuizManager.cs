@@ -211,19 +211,6 @@ namespace QuizLibrary
             //dataSourceLinker.AddData(_questionList);
         }
 
-        //public void CreateQuiz()
-        //{
-        //    Console.WriteLine("Welcome to quiz maker");
-        //    do
-        //    {                
-        //        AddQuestions();
-        //        q_no++;
-        //        Console.WriteLine("Do you want to enter another question ? y/n");
-        //        choice = Console.ReadLine() == "y" ? true : false;
-
-        //    } while (choice);
-        //}
-
         private string GetVerifiedQuestion()
         {
             do
@@ -254,7 +241,7 @@ namespace QuizLibrary
         {
             Console.WriteLine("Enter question id to update");
             ques_id = Console.ReadLine();
-            
+            bool found_flag = false;
             foreach (var item in _questionList)
             {
                 if (item.Id == ques_id)
@@ -270,9 +257,15 @@ namespace QuizLibrary
                     int index = _questionList.IndexOf(item);
                     _questionList.Remove(item);
                     _questionList.Insert(index, item);
+                    found_flag = true;
                     break;
                 }
 
+            }
+
+            if (!found_flag)
+            {
+                Console.WriteLine("Question not found");
             }
         }
     }
