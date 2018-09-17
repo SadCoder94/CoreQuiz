@@ -8,13 +8,13 @@ namespace XUnitTest
     public class XUnitTest1 : IDisposable
     {
         QuizManager quizManager;
-        //public List<Question> list;
+        public List<Question> list;
         DataSourceLinker dataSourceLinker;
 
         public XUnitTest1()
         {
             quizManager = new QuizManager();
-            //list = new List<Question>();
+            list = new List<Question>();
             dataSourceLinker = new DataSourceLinker();
         }
         
@@ -30,23 +30,59 @@ namespace XUnitTest
                 Time = DateTime.UtcNow
             };
 
-            //list.Add(trial);
-            //dataSourceLinker.AddData(quizManager.GetList());
+            list.Add(trial);
             Assert.True(quizManager.AddQuestion(trial));
         }
 
         [Fact]
-        public void TestDeleteQuestionWhenListEmpty()
+        public void TestDeleteQuestion()
         {
-            string id = "Q_11";
-            if(quizManager.Count()==0)
-              Assert.False(quizManager.DeleteQuestion(id));
+            Question trial = new Question
+            {
+                CorrectAnswer = "a",
+                Question_statement = "asd ?",
+                Id = "Q_13",
+                Question_type = "Subjective",
+                Time = DateTime.UtcNow
+            };
+
+            list.Add(trial);
+            quizManager.PutList(list);
+            string id = "Q_13";
+
+            Assert.True(quizManager.DeleteQuestion(id));
         }
 
         [Fact]
-        public void TestListQuestionsExist()
+        public void TestUpdateQuestions()
         {
-            Assert.NotEmpty(quizManager.GetList());
+            
+            list.AddRange(new List<Question>
+            { new Question {
+                CorrectAnswer = "a",
+                Question_statement = "asd ?",
+                Id = "Q_13",
+                Question_type = "Subjective",
+                Time = DateTime.UtcNow
+                },
+              new Question {
+                CorrectAnswer = "b",
+                Question_statement = "nsd ?",
+                Id = "Q_15",
+                Question_type = "Subjective",
+                Time = DateTime.UtcNow
+                },
+              new Question {
+                CorrectAnswer = "c",
+                Question_statement = "msd ?",
+                Id = "Q_16",
+                Question_type = "Subjective",
+                Time = DateTime.UtcNow
+                }
+            });
+            quizManager.PutList(list);
+            quizManager.UpdateQuestion(list[1],"fgd?");
+            Assert.Equal("fgd?", list[1].Question_statement);
         }
 
 

@@ -13,7 +13,6 @@ namespace QuizLibrary
         string[] temp_ops = new string[4];
         DataSourceLinker dataSourceLinker;
 
-        
         public bool AddQuestion(Question new_q)
         {
             try
@@ -28,6 +27,7 @@ namespace QuizLibrary
             }
             
         }
+
         public bool GetQuestionInformation()
         {
             Question new_q = new Question();
@@ -129,26 +129,33 @@ namespace QuizLibrary
             return dataSourceLinker.GetData(questionId);
         }
 
-        public Question UpdateQuestion(Question question)
+        public Question UpdateQuestion(Question question,string new_ques)
         {
             if (question.Question_type == "MCQ")
                 Console.WriteLine("Question: {0}\nOptions: {1}\nCorrect Answer: {2}", question.Question_statement, string.Join(',', question.Options), question.CorrectAnswer);
             else
                 Console.WriteLine("Question: {0}\nCorrect Answer: {1}", question.Question_statement, question.CorrectAnswer);
 
-            Console.WriteLine("Enter new question");
-            question.Question_statement = Console.ReadLine();
+            question.Question_statement = new_ques;
 
             return question;
         }
 
         public void DisplayQuizQuestions()
         {
-            Console.WriteLine("Quiz:-");
-            foreach (Question item in _questionList)
+            if (_questionList.Count > 0)
             {
-                Console.WriteLine(item.ToString());
+                Console.WriteLine("Quiz:-");
+                foreach (Question item in _questionList)
+                {
+                    Console.WriteLine(item.ToString());
+                }
             }
+            else
+            {
+                Console.WriteLine("No Questions found");
+            }
+
         }
 
         public void Initiate()
@@ -157,7 +164,7 @@ namespace QuizLibrary
             Console.WriteLine("Welcome to quiz maker");
             _questionList = GetAllQuestions();
             if(_questionList.Count !=0)
-            id_no = Convert.ToInt32(_questionList[_questionList.Count -1].Id.Substring(2));
+            id_no = Convert.ToInt32(_questionList[_questionList.Count -1].Id.Substring(2))+1;
 
             do
             {
@@ -193,27 +200,13 @@ namespace QuizLibrary
                         DisplayQuizQuestions();
                         break;
                     case 4:
-                        Console.WriteLine("Enter question id to update");
-                        temp_ques = Console.ReadLine();
-                        Question updated_ques = new Question();
-
-                        foreach (var item in _questionList)
-                        {
-                            if(item.Id==temp_ques)
-                            {
-                                updated_ques = UpdateQuestion(item);
-                                int index=_questionList.IndexOf(item);
-                                _questionList.Remove(item);
-                                _questionList.Insert(index, item);
-                            }
-                               
-                        }
+                        UpdateProcedure();
                         dataSourceLinker.AddData(_questionList);
                         break;
                     default:
                         break;
                 }
-            } while (choice<4);
+            } while (choice<5);
 
             //dataSourceLinker.AddData(_questionList);
         }
@@ -247,14 +240,40 @@ namespace QuizLibrary
             return _questionList;
         }
 
-        public void PutList()
+        public void PutList(List<Question> new_list)
         {
-            _questionList = GetAllQuestions();
+            _questionList = new_list;
         }
 
         public int Count()
         {
             return _questionList.Count;
+        }
+
+        public void UpdateProcedure()
+        {
+            Console.WriteLine("Enter question id to update");
+            ques_id = Console.ReadLine();
+            
+            foreach (var item in _questionList)
+            {
+                if (item.Id == ques_id)
+                {
+                    do
+                    {
+                        Console.WriteLine("Enter new question");
+                        temp_ques = Console.ReadLine();
+                    } while (temp_ques.Length == 0);
+
+                    Question updated_ques = new Question();
+                    updated_ques = UpdateQuestion(item, temp_ques);
+                    int index = _questionList.IndexOf(item);
+                    _questionList.Remove(item);
+                    _questionList.Insert(index, item);
+                    break;
+                }
+
+            }
         }
     }
 }
