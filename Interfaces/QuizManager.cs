@@ -10,7 +10,7 @@ namespace QuizLibrary
         //bool choice = true;
         //int q_no = 0;
         string temp_ques = String.Empty, c_ans = String.Empty, ques_id = String.Empty, ques_type = String.Empty;
-        string[] temp_ops = new string[4];
+        readonly string[] temp_ops = new string[4];
         DataSourceLinker dataSourceLinker;
 
         public bool AddQuestion(Question new_q)

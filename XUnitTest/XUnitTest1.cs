@@ -2,20 +2,27 @@ using Xunit;
 using QuizLibrary;
 using System.Collections.Generic;
 using System;
+using Xunit.Abstractions;
 
 namespace XUnitTest
 {
-    public class XUnitTest1 : IDisposable
+    public class XUnitTest1 : IClassFixture<QuizManagerFixture>
     {
-        QuizManager quizManager;
-        public List<Question> list;
-        DataSourceLinker dataSourceLinker;
+        //QuizManager quizManager;
+        //public List<Question> list;
+        //readonly DataSourceLinker dataSourceLinker;
+        private readonly ITestOutputHelper _testOutputHelper;
 
-        public XUnitTest1()
+        private readonly QuizManagerFixture _fixture;
+
+        public XUnitTest1(ITestOutputHelper helper, QuizManagerFixture fixture)
         {
-            quizManager = new QuizManager();
-            list = new List<Question>();
-            dataSourceLinker = new DataSourceLinker();
+            _testOutputHelper = helper;
+            _fixture = fixture;
+
+            //quizManager = new QuizManager();
+            //list = new List<Question>();
+            //dataSourceLinker = new DataSourceLinker();
         }
         
         [Fact]
@@ -29,9 +36,8 @@ namespace XUnitTest
                 Question_type = "Subjective",
                 Time = DateTime.UtcNow
             };
-
-            list.Add(trial);
-            Assert.True(quizManager.AddQuestion(trial));
+            
+            Assert.True(_fixture.Sut.AddQuestion(trial));
         }
 
         [Fact]
@@ -46,56 +52,36 @@ namespace XUnitTest
                 Time = DateTime.UtcNow
             };
 
-            list.Add(trial);
-            quizManager.PutList(list);
+            _fixture.Sut.AddQuestion(trial);
+            //quizManager.PutList(list);
             string id = "Q_13";
 
-            Assert.True(quizManager.DeleteQuestion(id));
+            Assert.True(_fixture.Sut.DeleteQuestion(id));
         }
 
         [Fact]
         public void TestDeleteQuestionwhenListEmpty()
         {
-            
-            string id = "Q_13";
-
-            Assert.False(quizManager.DeleteQuestion(id));
+            string id = "Q_14";
+            Assert.False(_fixture.Sut.DeleteQuestion(id));
         }
 
         [Fact]
         public void TestUpdateQuestions()
         {
             
-            list.AddRange(new List<Question>
-            { new Question {
-                CorrectAnswer = "a",
-                Question_statement = "asd ?",
-                Id = "Q_13",
-                Question_type = "Subjective",
-                Time = DateTime.UtcNow
-                },
-              new Question {
-                CorrectAnswer = "b",
-                Question_statement = "nsd ?",
-                Id = "Q_15",
-                Question_type = "Subjective",
-                Time = DateTime.UtcNow
-                },
-              new Question {
+            Question new_q = new Question
+            {
                 CorrectAnswer = "c",
                 Question_statement = "msd ?",
                 Id = "Q_16",
                 Question_type = "Subjective",
                 Time = DateTime.UtcNow
-                }
-            });
-            quizManager.PutList(list);
-            quizManager.UpdateQuestion(list[1],"fgd?");
-            Assert.Equal("fgd?", list[1].Question_statement);
-        }
+            };
 
-        public void Dispose()
-        {
+            _fixture.Sut.UpdateQuestion(new_q, "fgd?");
+            _testOutputHelper.WriteLine(new_q.ToString());
+            Assert.Equal("fgd?", new_q.Question_statement);
             
         }
     }
