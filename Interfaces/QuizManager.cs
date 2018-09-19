@@ -7,8 +7,6 @@ namespace QuizLibrary
     {
         private List<Question> _questionList=new List<Question>();
         public static int id_no = 0;
-        //bool choice = true;
-        //int q_no = 0;
         string temp_ques = String.Empty, c_ans = String.Empty, ques_id = String.Empty, ques_type = String.Empty;
         readonly string[] temp_ops = new string[4];
         DataSourceLinker dataSourceLinker;
@@ -220,21 +218,6 @@ namespace QuizLibrary
             } while (!temp_ques.EndsWith("?"));
 
             return temp_ques;
-        }
-
-        public List<Question> GetList()
-        {
-            return _questionList;
-        }
-
-        public void PutList(List<Question> new_list)
-        {
-            _questionList = new_list;
-        }
-
-        public int Count()
-        {
-            return _questionList.Count;
         }
 
         public void UpdateProcedure()

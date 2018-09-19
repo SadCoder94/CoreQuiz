@@ -8,9 +8,6 @@ namespace XUnitTest
 {
     public class XUnitTest1 : IClassFixture<QuizManagerFixture>
     {
-        //QuizManager quizManager;
-        //public List<Question> list;
-        //readonly DataSourceLinker dataSourceLinker;
         private readonly ITestOutputHelper _testOutputHelper;
 
         private readonly QuizManagerFixture _fixture;
@@ -19,10 +16,6 @@ namespace XUnitTest
         {
             _testOutputHelper = helper;
             _fixture = fixture;
-
-            //quizManager = new QuizManager();
-            //list = new List<Question>();
-            //dataSourceLinker = new DataSourceLinker();
         }
         
         [Fact]
@@ -53,7 +46,6 @@ namespace XUnitTest
             };
 
             _fixture.Sut.AddQuestion(trial);
-            //quizManager.PutList(list);
             string id = "Q_13";
 
             Assert.True(_fixture.Sut.DeleteQuestion(id));
