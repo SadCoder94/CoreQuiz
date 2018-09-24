@@ -5,7 +5,7 @@ namespace QuizLibrary
 {
     public class QuizManager : IQuiz
     {
-        private List<Question> _questionList=new List<Question>();
+        private List<Question> _questionList;
         public static int id_no = 0;
         string temp_ques = String.Empty, c_ans = String.Empty, ques_id = String.Empty, ques_type = String.Empty;
         readonly string[] temp_ops = new string[4];
@@ -16,6 +16,7 @@ namespace QuizLibrary
             try
             {
                 _questionList.Add(new_q);
+                dataSourceLinker.AddData(_questionList);
                 return true;
             }
             catch (Exception)
@@ -60,9 +61,9 @@ namespace QuizLibrary
 
                     new_q.Options = temp_ops;
                 }
-
                 flag = false;
-            } while (flag);
+
+            }while (flag);
 
             if (ques_type == "1")
             {
@@ -102,6 +103,7 @@ namespace QuizLibrary
                     if (item.Id == questionId)
                     {
                         _questionList.Remove(item);
+                        dataSourceLinker.AddData(_questionList);
                         return true;
                     }
                 }
@@ -118,7 +120,12 @@ namespace QuizLibrary
         public List<Question> GetAllQuestions()
         {
             dataSourceLinker = new DataSourceLinker();
-            return dataSourceLinker.GetData();                                   
+            var data = dataSourceLinker.GetData();
+            if (data!=null)
+            {
+                return data;
+            }
+            return new List<Question>();
         }
 
         public Question GetQuestionById(string questionId)
@@ -160,7 +167,7 @@ namespace QuizLibrary
         {
             int choice = 0;
             Console.WriteLine("Welcome to quiz maker");
-            _questionList = GetAllQuestions();
+            //PopulateList();
             if(_questionList.Count !=0)
             id_no = Convert.ToInt32(_questionList[_questionList.Count -1].Id.Substring(2))+1;
 
@@ -179,7 +186,7 @@ namespace QuizLibrary
                         {
                             Console.WriteLine("Successfully added question");
                         }
-                        dataSourceLinker.AddData(_questionList);
+                        //dataSourceLinker.AddData(_questionList);
                         break;
                     case 2:
                         Console.WriteLine("Enter id of question to delete");
@@ -192,14 +199,14 @@ namespace QuizLibrary
                         {
                             Console.WriteLine("Question not found");
                         }
-                        dataSourceLinker.AddData(_questionList);
+                        //dataSourceLinker.AddData(_questionList);
                         break;
                     case 3:
                         DisplayQuizQuestions();
                         break;
                     case 4:
                         UpdateProcedure();
-                        dataSourceLinker.AddData(_questionList);
+                        //dataSourceLinker.AddData(_questionList);
                         break;
                     default:
                         break;
@@ -207,6 +214,11 @@ namespace QuizLibrary
             } while (choice<5);
 
             //dataSourceLinker.AddData(_questionList);
+        }
+
+        public QuizManager()
+        {
+            _questionList = GetAllQuestions();
         }
 
         private string GetVerifiedQuestion()
@@ -240,6 +252,7 @@ namespace QuizLibrary
                     int index = _questionList.IndexOf(item);
                     _questionList.Remove(item);
                     _questionList.Insert(index, item);
+                    dataSourceLinker.AddData(_questionList);
                     found_flag = true;
                     break;
                 }

@@ -44,7 +44,7 @@ namespace QuizLibrary
                 }
                     
             }
-            return question;
+            return null;
         }
 
         public List<Question> GetData()
