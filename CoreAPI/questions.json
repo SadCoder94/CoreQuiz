@@ -1,7 +1,7 @@
 [
   {
     "Id": "Q_0",
-    "Question_statement": "asd?",
+    "Question_statement": "hgj?",
     "Time": "2018-09-17T09:39:04.9061954Z",
     "CorrectAnswer": "w",
     "Options": [
@@ -11,14 +11,6 @@
       "r"
     ],
     "Question_type": "MCQ"
-  },
-  {
-    "Id": "Q_1",
-    "Question_statement": "qwe?",
-    "Time": "2018-09-17T09:39:18.8336535Z",
-    "CorrectAnswer": "asdf",
-    "Options": null,
-    "Question_type": "Subjective"
   },
   {
     "Id": "Q_2",
@@ -48,13 +40,5 @@
       "k"
     ],
     "Question_type": "MCQ"
-  },
-  {
-    "Id": "Q_5",
-    "Question_statement": "fgh?",
-    "Time": "2018-09-17T09:59:37.3793421Z",
-    "CorrectAnswer": "jkl",
-    "Options": null,
-    "Question_type": "Subjective"
   }
 ]

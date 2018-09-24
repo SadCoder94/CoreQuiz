@@ -114,7 +114,7 @@ namespace QuizLibrary
                 return false;
             }
 
-            return false;
+            return true;
         }
 
         public List<Question> GetAllQuestions()
@@ -134,16 +134,22 @@ namespace QuizLibrary
             return dataSourceLinker.GetData(questionId);
         }
 
-        public Question UpdateQuestion(Question question,string new_ques)
+        public bool UpdateQuestion(Question question,string new_ques,int index)
         {
-            if (question.Question_type == "MCQ")
-                Console.WriteLine("Question: {0}\nOptions: {1}\nCorrect Answer: {2}", question.Question_statement, string.Join(',', question.Options), question.CorrectAnswer);
-            else
-                Console.WriteLine("Question: {0}\nCorrect Answer: {1}", question.Question_statement, question.CorrectAnswer);
+            try
+            {
+                _questionList.RemoveAt(index);
+                question.Question_statement = new_ques;
 
-            question.Question_statement = new_ques;
-
-            return question;
+                _questionList.Insert(index, question);
+                return dataSourceLinker.AddData(_questionList);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            //return true;
         }
 
         public void DisplayQuizQuestions()
@@ -186,7 +192,6 @@ namespace QuizLibrary
                         {
                             Console.WriteLine("Successfully added question");
                         }
-                        //dataSourceLinker.AddData(_questionList);
                         break;
                     case 2:
                         Console.WriteLine("Enter id of question to delete");
@@ -199,21 +204,18 @@ namespace QuizLibrary
                         {
                             Console.WriteLine("Question not found");
                         }
-                        //dataSourceLinker.AddData(_questionList);
                         break;
                     case 3:
                         DisplayQuizQuestions();
                         break;
                     case 4:
                         UpdateProcedure();
-                        //dataSourceLinker.AddData(_questionList);
                         break;
                     default:
                         break;
                 }
             } while (choice<5);
 
-            //dataSourceLinker.AddData(_questionList);
         }
 
         public QuizManager()
@@ -237,6 +239,7 @@ namespace QuizLibrary
             Console.WriteLine("Enter question id to update");
             ques_id = Console.ReadLine();
             bool found_flag = false;
+
             foreach (var item in _questionList)
             {
                 if (item.Id == ques_id)
@@ -247,12 +250,16 @@ namespace QuizLibrary
                         temp_ques = Console.ReadLine();
                     } while (temp_ques.Length == 0);
 
-                    Question updated_ques = new Question();
-                    updated_ques = UpdateQuestion(item, temp_ques);
                     int index = _questionList.IndexOf(item);
-                    _questionList.Remove(item);
-                    _questionList.Insert(index, item);
-                    dataSourceLinker.AddData(_questionList);
+                    if (UpdateQuestion(item, temp_ques,index))
+                    {
+                        Console.WriteLine("Successfully Updated Question {0} ", item.Id);
+                    } 
+                    else
+                    {
+                        Console.WriteLine("Question was not updated, try again");
+                        break;
+                    }
                     found_flag = true;
                     break;
                 }

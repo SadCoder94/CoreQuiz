@@ -66,12 +66,12 @@ namespace XUnitTest
             {
                 CorrectAnswer = "c",
                 Question_statement = "msd ?",
-                Id = "Q_16",
+                Id = "Q_2",
                 Question_type = "Subjective",
                 Time = DateTime.UtcNow
             };
 
-            _fixture.Sut.UpdateQuestion(new_q, "fgd?");
+            _fixture.Sut.UpdateQuestion(new_q, "fgd?",2);
             _testOutputHelper.WriteLine(new_q.ToString());
             Assert.Equal("fgd?", new_q.Question_statement);
             

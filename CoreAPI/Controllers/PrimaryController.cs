@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using QuizLibrary;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace CoreAPI.Controllers
 {
@@ -60,8 +61,30 @@ namespace CoreAPI.Controllers
             {
                 return BadRequest();
             }
-            NewQuiz.DeleteQuestion(id);
-            return CreatedAtAction("Deleted Question", new {id=0});
+            if(NewQuiz.DeleteQuestion(id))
+                Console.WriteLine("success");
+            return Ok();
+        }
+
+        //PUT: api/Primary
+        [HttpPut]
+        public IActionResult Put(JObject jObject)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            dynamic json = jObject;
+            Question question = json.question.ToObject<Question>();
+            string new_ques = json.new_ques;
+            int index = json.index;
+
+            if(NewQuiz.UpdateQuestion(question,new_ques,index))
+                Console.WriteLine("success");
+
+            return Ok();
+
         }
     }
 }
