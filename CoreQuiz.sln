@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizLibrary", "Interfaces\Q
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exceptions", "Exceptions\Exceptions.csproj", "{3A687341-D590-4085-AAC9-880DEE398B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreAPI", "CoreAPI\CoreAPI.csproj", "{54C5CFA2-4BDA-44B6-8A56-82A19769CAD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreAPI", "CoreAPI\CoreAPI.csproj", "{54C5CFA2-4BDA-44B6-8A56-82A19769CAD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMVC", "CoreMVC\CoreMVC.csproj", "{F5B9CCAC-D9DB-4801-A2BC-B1644815A113}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{54C5CFA2-4BDA-44B6-8A56-82A19769CAD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54C5CFA2-4BDA-44B6-8A56-82A19769CAD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54C5CFA2-4BDA-44B6-8A56-82A19769CAD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B9CCAC-D9DB-4801-A2BC-B1644815A113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B9CCAC-D9DB-4801-A2BC-B1644815A113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B9CCAC-D9DB-4801-A2BC-B1644815A113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B9CCAC-D9DB-4801-A2BC-B1644815A113}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

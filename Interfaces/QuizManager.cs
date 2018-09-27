@@ -59,7 +59,7 @@ namespace QuizLibrary
                         temp_ops[i] = Console.ReadLine();
                     }
 
-                    new_q.Options = temp_ops;
+                    new_q.Options = string.Join(',',temp_ops);
                 }
                 flag = false;
 
