@@ -22,9 +22,40 @@ namespace CoreMVC.Controllers
         }
 
         // GET: Questions
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var movies = from q in _context.Question
+        //                 select q;
+
+        //    return View(await movies.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(string MVCQType, string id)
         {
-            return View(await _context.Question.ToListAsync());
+
+            IQueryable<string> qTypeListQuery = from q in _context.Question
+                                           orderby q.Question_type
+                                           select q.Question_type;
+
+            var questions = from q in _context.Question
+                            select q;
+
+            if (!String.IsNullOrEmpty(MVCQType))
+            {
+                questions = questions.Where(que=> que.Question_type==MVCQType);
+            }
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                questions = questions.Where(que=>que.Question_statement.Contains(id));
+            }
+
+            var MVCQTypeVM = new MVCQTypeViewModel
+            {
+                Types = new SelectList(await qTypeListQuery.Distinct().ToListAsync()),
+                questions = await questions.ToListAsync()
+            };
+            return View(MVCQTypeVM);
         }
 
         // GET: Questions/Details/5
@@ -142,7 +173,7 @@ namespace CoreMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var question = await _context.Question.FindAsync(id);
-            _context.Question.Remove(question);
+            _context.Question.Remove((QuizLibrary.Question)question);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -19,7 +19,7 @@ namespace CoreMVC
         {
             var host = CreateWebHostBuilder(args).Build();
             //CreateWebHostBuilder(args).Build().Run();
-            using (var scope=host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
@@ -31,7 +31,7 @@ namespace CoreMVC
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex,"Error occured seeding DB");
+                    logger.LogError(ex, "Error occured seeding DB");
                     throw;
                 }
             }

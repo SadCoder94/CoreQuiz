@@ -22,4 +22,14 @@
     <ProjectReference Include="..\Interfaces\QuizLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Quiz\Create.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Quiz\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

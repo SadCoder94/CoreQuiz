@@ -1,6 +1,65 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@model IEnumerable<QuizLibrary.Question>
+
+@{
+    ViewData["Title"] = "Questions List";
 }
 
-<h2>Quiz Maker</h2>
-<p>Hello to quiz maker!</p>
+<h2>View</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_statement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorrectAnswer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Options)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question_type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_statement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CorrectAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Options)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question_type)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id}) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

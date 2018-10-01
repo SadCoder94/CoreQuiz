@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QuizLibrary
 {
-    public class Question
+    public class Question //: IQuestion
     {
+        [MaxLength(4)]
         public string Id { get; set; }
         public string Question_statement { get; set; }
         [DisplayFormat(DataFormatString ="{0:h:mm tt}",ApplyFormatInEditMode =true)]
         public DateTime Time { get; set; }
-        public string CorrectAnswer { get; set; }
+        public string CorrectAnswer { get; set; }  
         public string Options { get; set; }
         public string Question_type { get; set; }
 

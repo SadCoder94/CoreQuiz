@@ -15,6 +15,8 @@ namespace QuizLibrary
         {
             try
             {
+                new_q.Id = "Q_" + Convert.ToString(id_no++);
+                new_q.Time = DateTime.UtcNow;
                 _questionList.Add(new_q);
                 dataSourceLinker.AddData(_questionList);
                 return true;
@@ -152,6 +154,25 @@ namespace QuizLibrary
             //return true;
         }
 
+        public bool UpdateQuestion(Question new_ques)
+        {
+            try
+            {
+                int index = 0;
+                Question old_ques=_questionList.Find(q => q.Id == new_ques.Id);
+                index = _questionList.IndexOf(old_ques);
+                _questionList.Remove(old_ques);
+                _questionList.Insert(index, new_ques);
+                return dataSourceLinker.AddData(_questionList);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            //return true;
+        }
+
         public void DisplayQuizQuestions()
         {
             if (_questionList.Count > 0)
@@ -221,6 +242,8 @@ namespace QuizLibrary
         public QuizManager()
         {
             _questionList = GetAllQuestions();
+            if (_questionList.Count != 0)
+                id_no = Convert.ToInt32(_questionList[_questionList.Count - 1].Id.Substring(2)) + 1;
         }
 
         private string GetVerifiedQuestion()
@@ -239,19 +262,20 @@ namespace QuizLibrary
             Console.WriteLine("Enter question id to update");
             ques_id = Console.ReadLine();
             bool found_flag = false;
-
+            Question new_ques = new Question();
             foreach (var item in _questionList)
             {
                 if (item.Id == ques_id)
                 {
+                    new_ques = item;
                     do
                     {
                         Console.WriteLine("Enter new question");
                         temp_ques = Console.ReadLine();
                     } while (temp_ques.Length == 0);
-
-                    int index = _questionList.IndexOf(item);
-                    if (UpdateQuestion(item, temp_ques,index))
+                    new_ques.Question_statement = temp_ques;
+                    
+                    if (UpdateQuestion(new_ques))
                     {
                         Console.WriteLine("Successfully Updated Question {0} ", item.Id);
                     } 

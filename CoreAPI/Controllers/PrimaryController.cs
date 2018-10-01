@@ -26,7 +26,7 @@ namespace CoreAPI.Controllers
                 return NotFound();
             }
            
-            return Ok(NewQuiz.GetAllQuestions());
+            return Ok( NewQuiz.GetAllQuestions());
         }
 
         // GET: api/Primary/5
@@ -50,7 +50,7 @@ namespace CoreAPI.Controllers
                 return BadRequest();
             }
             NewQuiz.AddQuestion(question);
-            return CreatedAtAction("Added Question", question.Id);
+            return Ok(question.Question_statement);
         }
         
         // DELETE: api/Primary/Q_5
@@ -76,11 +76,13 @@ namespace CoreAPI.Controllers
             }
 
             dynamic json = jObject;
-            Question question = json.question.ToObject<Question>();
-            string new_ques = json.new_ques;
-            int index = json.index;
+            //Question question = json.question.ToObject<Question>();
+            //string new_ques = json.new_ques;
+            Question new_ques = json.ToObject<Question>();
 
-            if(NewQuiz.UpdateQuestion(question,new_ques,index))
+            //int index = json.index;
+
+            if(NewQuiz.UpdateQuestion(new_ques))
                 Console.WriteLine("success");
 
             return Ok();

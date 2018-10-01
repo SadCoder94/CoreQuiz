@@ -47,7 +47,7 @@ namespace CoreMVC
             }
             else
             {
-                app.UseExceptionHandler("/Questions/Error");
+                app.UseExceptionHandler("/Quiz/Error");
                 app.UseHsts();
             }
 
@@ -59,7 +59,7 @@ namespace CoreMVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Questions}/{action=Index}/{id?}");
+                    template: "{controller=Quiz}/{action=Index}/{id?}");
             });
         }
     }

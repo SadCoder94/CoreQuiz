@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuizLibrary.Question>
+﻿@model CoreMVC.Models.MVCQTypeViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,29 +9,40 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Questions" asp-action="Index" method="get">
+    <p>
+        <select asp-for="QType" asp-items="Model.Types">
+            <option value="">All</option>
+        </select>
+        Title: <input type="text" name="id">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Question_statement)
+                @Html.DisplayNameFor(model => model.questions[0].Question_statement)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                @Html.DisplayNameFor(model => model.questions[0].Time)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CorrectAnswer)
+                @Html.DisplayNameFor(model => model.questions[0].CorrectAnswer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Options)
+                @Html.DisplayNameFor(model => model.questions[0].Options)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Question_type)
+                @Html.DisplayNameFor(model => model.questions[0].Question_type)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.questions) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Question_statement)
