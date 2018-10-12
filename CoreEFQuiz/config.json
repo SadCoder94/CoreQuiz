@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "QuestionDB": "Server=pxc5ydevqa.database.secure.windows.net;Database=PracticeQuizDB;Trusted_Connection=true;MultipleActiveResultSets=true"
+  }
+}

@@ -25,7 +25,7 @@ namespace XUnitTest
             {
                 CorrectAnswer = "a",
                 Question_statement = "asd ?",
-                Id = "Q_11",
+                QuestionId = "Q_11",
                 Question_type = "Subjective",
                 Time = DateTime.UtcNow
             };
@@ -40,7 +40,7 @@ namespace XUnitTest
             {
                 CorrectAnswer = "a",
                 Question_statement = "asd ?",
-                Id = "Q_13",
+                QuestionId = "Q_13",
                 Question_type = "Subjective",
                 Time = DateTime.UtcNow
             };
@@ -66,7 +66,7 @@ namespace XUnitTest
             {
                 CorrectAnswer = "c",
                 Question_statement = "msd ?",
-                Id = "Q_2",
+                QuestionId = "Q_2",
                 Question_type = "Subjective",
                 Time = DateTime.UtcNow
             };

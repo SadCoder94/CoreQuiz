@@ -17,25 +17,25 @@ namespace CoreMVC
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-            //CreateWebHostBuilder(args).Build().Run();
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<CoreMVCContext>();
-                    context.Database.Migrate();
-                    SeedData.Initialize(services);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "Error occured seeding DB");
-                    throw;
-                }
-            }
-            host.Run();
+            //var host = CreateWebHostBuilder(args).Build();
+            CreateWebHostBuilder(args).Build().Run();
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    try
+            //    {
+            //        var context = services.GetRequiredService<CoreMVCContext>();
+            //        context.Database.Migrate();
+            //        SeedData.Initialize(services);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        var logger = services.GetRequiredService<ILogger<Program>>();
+            //        logger.LogError(ex, "Error occured seeding DB");
+            //        throw;
+            //    }
+            //}
+            //host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -36,7 +36,7 @@ namespace QuizLibrary
                         if (jsonTextReader.TokenType == JsonToken.StartObject)
                         {
                             question = jsonSerializer.Deserialize<Question>(jsonTextReader);
-                            if (question.Id == qId)
+                            if (question.QuestionId == qId)
                                 return question;
                         }
                     }

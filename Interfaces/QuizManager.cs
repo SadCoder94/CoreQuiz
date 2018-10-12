@@ -11,11 +11,15 @@ namespace QuizLibrary
         readonly string[] temp_ops = new string[4];
         DataSourceLinker dataSourceLinker;
 
+        public int QuizId { get; set; }
+        public string QuizName { get; set; }
+        //public ICollection<Question> Question_List { get; set; }
+
         public bool AddQuestion(Question new_q)
         {
             try
             {
-                new_q.Id = "Q_" + Convert.ToString(id_no++);
+                new_q.QuestionId = "Q_" + Convert.ToString(id_no++);
                 new_q.Time = DateTime.UtcNow;
                 _questionList.Add(new_q);
                 dataSourceLinker.AddData(_questionList);
@@ -90,7 +94,7 @@ namespace QuizLibrary
             new_q.CorrectAnswer = c_ans;
 
             new_q.Time = DateTime.UtcNow;
-            new_q.Id = "Q_" + id_no.ToString();
+            new_q.QuestionId = "Q_" + id_no.ToString();
             id_no++;
 
             return AddQuestion(new_q);
@@ -102,7 +106,7 @@ namespace QuizLibrary
             {
                 foreach (Question item in _questionList)
                 {
-                    if (item.Id == questionId)
+                    if (item.QuestionId == questionId)
                     {
                         _questionList.Remove(item);
                         dataSourceLinker.AddData(_questionList);
@@ -159,7 +163,7 @@ namespace QuizLibrary
             try
             {
                 int index = 0;
-                Question old_ques=_questionList.Find(q => q.Id == new_ques.Id);
+                Question old_ques=_questionList.Find(q => q.QuestionId == new_ques.QuestionId);
                 index = _questionList.IndexOf(old_ques);
                 _questionList.Remove(old_ques);
                 _questionList.Insert(index, new_ques);
@@ -196,7 +200,7 @@ namespace QuizLibrary
             Console.WriteLine("Welcome to quiz maker");
             //PopulateList();
             if(_questionList.Count !=0)
-            id_no = Convert.ToInt32(_questionList[_questionList.Count -1].Id.Substring(2))+1;
+            id_no = Convert.ToInt32(_questionList[_questionList.Count -1].QuestionId.Substring(2))+1;
 
             do
             {
@@ -243,7 +247,7 @@ namespace QuizLibrary
         {
             _questionList = GetAllQuestions();
             if (_questionList.Count != 0)
-                id_no = Convert.ToInt32(_questionList[_questionList.Count - 1].Id.Substring(2)) + 1;
+                id_no = Convert.ToInt32(_questionList[_questionList.Count - 1].QuestionId.Substring(2)) + 1;
         }
 
         private string GetVerifiedQuestion()
@@ -265,7 +269,7 @@ namespace QuizLibrary
             Question new_ques = new Question();
             foreach (var item in _questionList)
             {
-                if (item.Id == ques_id)
+                if (item.QuestionId == ques_id)
                 {
                     new_ques = item;
                     do
@@ -277,7 +281,7 @@ namespace QuizLibrary
                     
                     if (UpdateQuestion(new_ques))
                     {
-                        Console.WriteLine("Successfully Updated Question {0} ", item.Id);
+                        Console.WriteLine("Successfully Updated Question {0} ", item.QuestionId);
                     } 
                     else
                     {

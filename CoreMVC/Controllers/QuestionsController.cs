@@ -67,7 +67,7 @@ namespace CoreMVC.Controllers
             }
 
             var question = await _context.Question
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.QuestionId == id);
             if (question == null)
             {
                 return NotFound();
@@ -121,7 +121,7 @@ namespace CoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
         {
-            if (id != question.Id)
+            if (id != question.QuestionId)
             {
                 return NotFound();
             }
@@ -135,7 +135,7 @@ namespace CoreMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionExists(question.Id))
+                    if (!QuestionExists(question.QuestionId))
                     {
                         return NotFound();
                     }
@@ -158,7 +158,7 @@ namespace CoreMVC.Controllers
             }
 
             var question = await _context.Question
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.QuestionId == id);
             if (question == null)
             {
                 return NotFound();
@@ -180,7 +180,7 @@ namespace CoreMVC.Controllers
 
         private bool QuestionExists(string id)
         {
-            return _context.Question.Any(e => e.Id == id);
+            return _context.Question.Any(e => e.QuestionId == id);
         }
     }
 }

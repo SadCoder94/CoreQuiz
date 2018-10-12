@@ -17,20 +17,25 @@ namespace CoreMVC.Controllers
     {
         readonly string BaseURL = "https://localhost:44347/";
         HttpClient client;
-        public QuizController()
+        private IQuiz _Quiz; 
+        public QuizController(IQuiz Quiz)
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri(BaseURL);
+            _Quiz = Quiz;
+            client = new HttpClient
+            {
+                BaseAddress = new Uri(BaseURL)
+            };
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         //GET: Index
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             List<Question> questions = new List<Question>();
-            
-            HttpResponseMessage res = await client.GetAsync("api/Primary");
+            //_Quiz.
+            HttpResponseMessage res = await client.GetAsync("api/QuizJSON");
 
             if (res.IsSuccessStatusCode)
             {
@@ -50,7 +55,7 @@ namespace CoreMVC.Controllers
                 return NotFound();
             }
 
-            HttpResponseMessage res =  await client.GetAsync("api/Primary/"+id);
+            HttpResponseMessage res =  await client.GetAsync("api/QuizJSON/"+id);
             Question question=new Question();
             if (res.IsSuccessStatusCode)
             {
@@ -69,14 +74,14 @@ namespace CoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
         {
-            if (id != question.Id)
+            if (id != question.QuestionId)
             {
                 return NotFound();
             }
    
             if (ModelState.IsValid)
             {
-                var resultContent = await client.PutAsJsonAsync<JObject>("api/Primary", JObject.FromObject(question));
+                var resultContent = await client.PutAsJsonAsync<JObject>("api/QuizJSON", JObject.FromObject(question));
                 if (resultContent.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -103,7 +108,7 @@ namespace CoreMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var resultContent = await client.PostAsync("api/Primary", byteContent);
+                var resultContent = await client.PostAsync("api/QuizJSON", byteContent);
                 return RedirectToAction("Index", "Quiz");
             }
             

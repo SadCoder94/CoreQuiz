@@ -5,9 +5,11 @@ using Moq;
 using QuizLibrary;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Net;
+using System.Web;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreMVC.Tests.Controller
 {
@@ -15,27 +17,28 @@ namespace CoreMVC.Tests.Controller
     {
         private readonly QuizController _controller;
 
-        public ControllerShould()
-        {
-            _controller = new QuizController();
-        }
+        //public ControllerShould()
+        //{
+        //    _controller = new QuizController(IQuiz quiz);
+        //}
 
         [Fact]
-        public void CheckViewReturn()
+        public void CheckIndexReturn()
         {
-            dynamic sut =  _controller.Index() as Task<ActionResult>;
-
-            var result = sut.Result;
-            IEnumerable<Question> model = (IEnumerable<Question>)(result.Model);
-            foreach (var item in model)
-            {
-                if (item.Question_statement == "how are you doing ?")
-                {
-                    Assert.Equal("how are you doing ?", item.Question_statement);
-                    break;
-                }
-            }
-            
+            //var sut =  _controller.Index();
+            //var result = sut.Wait();
+            //IEnumerable<Question> model = (IEnumerable<Question>)(result);
+            //foreach (var item in model)
+            //{
+            //    if (item.Question_statement == "how are you doing ?")
+            //    {
+            //        Assert.Equal("how are you doing ?", item.Question_statement);
+            //        break;
+            //    }
+            //}
+            //Assert.True(result.ToString().Equals(HttpStatusCode.OK));
+            var QuizRepository = new Mock<IQuiz>();
+            var QuizController = new QuizController(QuizRepository.Object);
         }
     }
 }

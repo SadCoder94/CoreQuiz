@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace CoreAPI.Models
+namespace CoreAPI
 {
-    public class Quiz
+    public partial class Quiz
     {
+        public Quiz()
+        {
+            Question = new HashSet<Question>();
+        }
+
+        public int QuizId { get; set; }
+        public string QuizName { get; set; }
+
+        public ICollection<Question> Question { get; set; }
     }
 }

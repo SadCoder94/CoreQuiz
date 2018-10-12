@@ -12,15 +12,16 @@ namespace CoreAPI.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PrimaryController : ControllerBase
+    public class QuizJSONController : Controller
     {
-        public static QuizManager NewQuiz = new QuizManager();
+        public QuizManager NewQuiz;
         
         // GET: api/Primary
         [HttpGet]
         public IActionResult Get()
         {
-            List<Question> NewList = NewQuiz.GetAllQuestions();
+            NewQuiz = new QuizManager();
+            List<QuizLibrary.Question> NewList = NewQuiz.GetAllQuestions();
             if (NewList==null)
             {
                 return NotFound();
@@ -33,7 +34,8 @@ namespace CoreAPI.Controllers
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(String id)
         {
-            Question GotQuestion = NewQuiz.GetQuestionById(id);
+            NewQuiz = new QuizManager();
+            QuizLibrary.Question GotQuestion = NewQuiz.GetQuestionById(id);
             if (GotQuestion==null)
             {
                 return NotFound();
@@ -43,8 +45,9 @@ namespace CoreAPI.Controllers
 
         // POST: api/Primary
         [HttpPost]
-        public IActionResult Post([FromBody] Question question)
+        public IActionResult Post([FromBody] QuizLibrary.Question question)
         {
+            NewQuiz = new QuizManager();
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -57,6 +60,7 @@ namespace CoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
+            NewQuiz = new QuizManager();
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -70,6 +74,7 @@ namespace CoreAPI.Controllers
         [HttpPut]
         public IActionResult Put(JObject jObject)
         {
+            NewQuiz = new QuizManager();
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -78,7 +83,7 @@ namespace CoreAPI.Controllers
             dynamic json = jObject;
             //Question question = json.question.ToObject<Question>();
             //string new_ques = json.new_ques;
-            Question new_ques = json.ToObject<Question>();
+            QuizLibrary.Question new_ques = json.ToObject<QuizLibrary.Question>();
 
             //int index = json.index;
 
