@@ -12,9 +12,11 @@ namespace CoreMVC.Tests.Controller
         public string res { get; set; }
         public async Task<HttpResponseMessage> GetData(string url)
         {
-            HttpResponseMessage responseMessage = new HttpResponseMessage();
-            responseMessage.Content = new StringContent(res);
-            responseMessage.StatusCode= System.Net.HttpStatusCode.OK;
+            HttpResponseMessage responseMessage = new HttpResponseMessage
+            {
+                Content = new StringContent(res),
+                StatusCode = System.Net.HttpStatusCode.OK
+            };
             return responseMessage;
         }
 

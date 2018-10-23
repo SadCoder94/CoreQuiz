@@ -33,22 +33,14 @@ namespace CoreMVC.Tests.Controller
         public async Task CheckIndexReturn()
         {
             //Arrange
-            
 
             //Act
             var result =await testcontroller.Index();
-            ViewResult viewResult = (ViewResult)result;
+            ViewResult viewResult = result as ViewResult;
+            List<CoreAPI.Question> questions = (List<CoreAPI.Question>)viewResult.Model;
 
             //Assert
-            //Assert.Equal(200, viewResult.StatusCode);
-            Assert.NotNull(viewResult.ViewData.Model);
-            Assert.NotEmpty(viewResult.ViewData);
-            //var viewResult=Assert.IsType<ViewResult>(result);
-            //var model = Assert.IsAssignableFrom<IEnumerable<Question>>(viewResult.ViewData.Model);
-            //Assert.NotEmpty(model);
-
-
-
+            Assert.True(questions[0].QuestionId==3);      
         }
     }
 }
