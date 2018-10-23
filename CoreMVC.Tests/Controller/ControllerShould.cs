@@ -10,35 +10,45 @@ using System.Web;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace CoreMVC.Tests.Controller
 {
     public class ControllerShould
     {
-        private readonly QuizController _controller;
 
-        //public ControllerShould()
-        //{
-        //    _controller = new QuizController(IQuiz quiz);
-        //}
+        DBQuizController testcontroller;
 
-        [Fact]
-        public void CheckIndexReturn()
+        public ControllerShould()
         {
-            //var sut =  _controller.Index();
-            //var result = sut.Wait();
-            //IEnumerable<Question> model = (IEnumerable<Question>)(result);
-            //foreach (var item in model)
-            //{
-            //    if (item.Question_statement == "how are you doing ?")
-            //    {
-            //        Assert.Equal("how are you doing ?", item.Question_statement);
-            //        break;
-            //    }
-            //}
-            //Assert.True(result.ToString().Equals(HttpStatusCode.OK));
-            var QuizRepository = new Mock<IQuiz>();
-            var QuizController = new QuizController(QuizRepository.Object);
+            TestClient testclient = new TestClient()
+            {
+                res = "[{\"questionId\": 3,\"quizId\": 1,\"question_statement\": \"Question 2 ?\",\"time\": \"2018-10-09T16:25:40.227\",\"correctAnswer\": \"Answer 20\",\"options\": null,\"question_type\": \"Subjective\",\"quiz\": null}]"
+            };
+
+            testcontroller = new DBQuizController(testclient);
+        }
+        
+        [Fact]
+        public async Task CheckIndexReturn()
+        {
+            //Arrange
+            
+
+            //Act
+            var result =await testcontroller.Index();
+            ViewResult viewResult = (ViewResult)result;
+
+            //Assert
+            //Assert.Equal(200, viewResult.StatusCode);
+            Assert.NotNull(viewResult.ViewData.Model);
+            Assert.NotEmpty(viewResult.ViewData);
+            //var viewResult=Assert.IsType<ViewResult>(result);
+            //var model = Assert.IsAssignableFrom<IEnumerable<Question>>(viewResult.ViewData.Model);
+            //Assert.NotEmpty(model);
+
+
+
         }
     }
 }

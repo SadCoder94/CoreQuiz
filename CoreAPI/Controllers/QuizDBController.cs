@@ -48,7 +48,7 @@ namespace CoreAPI.Controllers
             return Ok(question);
         }
 
-        // PUT: api/DBQuestions/5
+        // PUT: api/QuizDB/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutQuestion([FromRoute] int id, [FromBody] Question question)
         {
@@ -57,7 +57,7 @@ namespace CoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id.Equals(question.QuestionId))
+            if (id != question.QuestionId)
             {
                 return BadRequest();
             }
@@ -66,9 +66,9 @@ namespace CoreAPI.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                var stat = await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException exception)
             {
                 if (!QuestionExists(id))
                 {
@@ -76,11 +76,11 @@ namespace CoreAPI.Controllers
                 }
                 else
                 {
-                    throw;
+                    return Forbid();
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/DBQuestions

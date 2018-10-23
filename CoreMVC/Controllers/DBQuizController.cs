@@ -5,28 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CoreMVC.Models;
-using QuizLibrary;
+using CoreAPI;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace CoreMVC.Controllers
 {
-    public class QuizController : Controller
+    public class DBQuizController : Controller
     {
-        readonly string BaseURL = "https://localhost:44347/";
+        private readonly string BaseURL = "https://localhost:44347/";
+        private readonly IDBClient _client;
         HttpClient client;
-        private IQuiz _Quiz; 
-        public QuizController(IQuiz Quiz)
+
+        public DBQuizController(IDBClient client)//(IQuiz Quiz)
         {
-            _Quiz = Quiz;
-            client = new HttpClient
-            {
-                BaseAddress = new Uri(BaseURL)
-            };
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client = client;
         }
 
         //GET: Index
@@ -34,19 +30,19 @@ namespace CoreMVC.Controllers
         public async Task<ActionResult> Index()
         {
             List<Question> questions = new List<Question>();
-            
-            HttpResponseMessage res = await client.GetAsync("api/QuizJSON");
-
+            //string res = await _client.GetData(@"/api/QuizDB");
+            HttpResponseMessage res = await _client.GetData(@"/api/QuizDB");
             if (res.IsSuccessStatusCode)
             {
-                    var response = res.Content.ReadAsStringAsync().Result;
-                    questions = JsonConvert.DeserializeObject<List<Question>>(response);
+                var response = res.Content.ReadAsStringAsync().Result;
+                questions = JsonConvert.DeserializeObject<List<Question>>(response);
             }
 
             return View(questions);
-            
+
         }
 
+        // GET: api/DBQuiz/5
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -55,11 +51,11 @@ namespace CoreMVC.Controllers
                 return NotFound();
             }
 
-            HttpResponseMessage res =  await client.GetAsync("api/QuizJSON/"+id);
-            Question question=new Question();
+            HttpResponseMessage res = await _client.GetDataEdit(String.Format(@"/api/QuizDB/{0}",id));
+            Question question = new Question();
             if (res.IsSuccessStatusCode)
             {
-                var response = res.Content.ReadAsStringAsync().Result;
+                string response = res.Content.ReadAsStringAsync().Result;
                 question = JsonConvert.DeserializeObject<Question>(response);
             }
 
@@ -72,16 +68,16 @@ namespace CoreMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("QuestionId,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("QuestionId,Question_statement,Time,CorrectAnswer,Options,Question_type,QuizId")] Question question)
         {
             if (id != question.QuestionId)
             {
                 return NotFound();
             }
-   
+
             if (ModelState.IsValid)
             {
-                var resultContent = await client.PutAsJsonAsync<JObject>("api/QuizJSON", JObject.FromObject(question));
+                var resultContent = await _client.PutAsJsonAsync<Question>(String.Format(@"/api/QuizDB/{0}", id), question);
                 if (resultContent.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -91,36 +87,36 @@ namespace CoreMVC.Controllers
             //return View(question);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("QuestionId,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
-        {
-            var content = JsonConvert.SerializeObject(question);
-            var buffer = System.Text.Encoding.UTF8.GetBytes(content);
-            var byteContent = new ByteArrayContent(buffer);
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("QuestionId,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
+        //{
+        //    var content = JsonConvert.SerializeObject(question);
+        //    var buffer = System.Text.Encoding.UTF8.GetBytes(content);
+        //    var byteContent = new ByteArrayContent(buffer);
+        //    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            if (ModelState.IsValid)
-            {
-                var resultContent = await client.PostAsync("api/QuizJSON", byteContent);
-                return RedirectToAction("Index", "Quiz");
-            }
-            
-            return View(question);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        var resultContent = await client.PostAsync("api/QuizDB", byteContent);
+        //        return RedirectToAction("Index", "DBQuiz");
+        //    }
+
+        //    return View(question);
+        //}
 
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
 
             return View();
-            
+
         }
 
         public IActionResult Contact()

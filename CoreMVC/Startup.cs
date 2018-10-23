@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using CoreMVC.Models;
 using QuizLibrary;
+using CoreMVC.Controllers;
+using System.Net.Http;
 
 namespace CoreMVC
 {
@@ -37,7 +39,8 @@ namespace CoreMVC
             //services.AddDbContext<CoreMVCContext>(options =>
             //        options.UseSqlServer(Configuration.GetConnectionString("PracticeDB")));
             services.AddMvc();
-            services.AddSingleton<IQuiz,QuizManager>(); 
+            services.AddSingleton<IDBClient, DBQuizClient>();
+            services.AddSingleton<IQuiz,QuizManager>();            
 
         }
 
@@ -62,7 +65,7 @@ namespace CoreMVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Quiz}/{action=Index}/{id?}");
+                    template: "{controller=DBQuiz}/{action=Index}/{id?}");
             });
         }
     }

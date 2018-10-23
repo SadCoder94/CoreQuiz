@@ -54,7 +54,7 @@ namespace CoreAPI
 
             modelBuilder.Entity<Quiz>(entity =>
             {
-                entity.Property(e => e.QuizName).IsRequired();
+                entity.Property(e => e.QuizId).IsRequired();
             });
             
         }
