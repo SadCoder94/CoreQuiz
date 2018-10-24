@@ -1,4 +1,5 @@
-﻿using CoreMVC.Controllers;
+﻿using CoreAPI;
+using CoreMVC.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -21,6 +22,11 @@ namespace CoreMVC.Tests.Controller
         }
 
         public Task<HttpResponseMessage> GetDataEdit(string url)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> PostAsync(string url, Question JSONQues)
         {
             throw new NotImplementedException();
         }

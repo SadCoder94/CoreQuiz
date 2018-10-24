@@ -14,6 +14,6 @@ namespace CoreMVC.Models
         {
         }
 
-        public DbSet<QuizLibrary.Question> Question { get; set; }
+        public DbSet<CoreAPI.Question> Question { get; set; }
     }
 }

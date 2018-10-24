@@ -2,28 +2,44 @@
 using CoreMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using QuizLibrary;
+using CoreAPI;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using System.Threading.Tasks;
 using Xunit;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 
 namespace CoreMVC.Tests.Controller
 {
-    public class ControllerShould
+    public class TestControllers
     {
 
         DBQuizController testcontroller;
+        private List<Question> newQuesList=new List<Question>();
+        Question newQues;
 
-        public ControllerShould()
+        public TestControllers()
         {
+            newQues = new Question() {
+                QuestionId = 3,
+                Question_statement = "suup ?",
+                Time = DateTime.UtcNow,
+                CorrectAnswer="rt",
+                Options= "qw,we,er,rt",
+                Question_type="Objective",
+                Quiz=null,
+                QuizId=2
+
+            };
+            newQuesList.Add(newQues);
+
             TestClient testclient = new TestClient()
             {
-                res = "[{\"questionId\": 3,\"quizId\": 1,\"question_statement\": \"Question 2 ?\",\"time\": \"2018-10-09T16:25:40.227\",\"correctAnswer\": \"Answer 20\",\"options\": null,\"question_type\": \"Subjective\",\"quiz\": null}]"
+                res = JsonConvert.SerializeObject(newQuesList)
             };
 
             testcontroller = new DBQuizController(testclient);
@@ -37,10 +53,10 @@ namespace CoreMVC.Tests.Controller
             //Act
             var result =await testcontroller.Index();
             ViewResult viewResult = result as ViewResult;
-            List<CoreAPI.Question> questions = (List<CoreAPI.Question>)viewResult.Model;
+            List<Question> questions = (List<Question>)viewResult.Model;
 
             //Assert
-            Assert.True(questions[0].QuestionId==3);      
+            Assert.True(questions[0].QuestionId==newQues.QuestionId);      
         }
     }
 }

@@ -64,8 +64,12 @@ namespace CoreMVC
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
+                    name: "database oriented quiz",
                     template: "{controller=DBQuiz}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "JSON oriented quiz",
+                    template: "{controller=Quiz}/{action=Index}/{id?}");
             });
         }
     }

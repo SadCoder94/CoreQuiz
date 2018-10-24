@@ -47,11 +47,11 @@ namespace CoreAPI
                     .WithMany(p => p.Question)
                     .HasForeignKey(d => d.QuizId)
                     .HasConstraintName("FK_QuizId");
+
+                entity.HasKey(c => c.QuestionId);
+
             });
-
-            modelBuilder.Entity<Question>()
-            .HasKey(c => c.QuestionId);
-
+            
             modelBuilder.Entity<Quiz>(entity =>
             {
                 entity.Property(e => e.QuizId).IsRequired();

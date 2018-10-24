@@ -59,7 +59,7 @@ namespace CoreMVC.Controllers
         }
 
         // GET: Questions/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -150,7 +150,7 @@ namespace CoreMVC.Controllers
         }
 
         // GET: Questions/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
@@ -173,14 +173,14 @@ namespace CoreMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var question = await _context.Question.FindAsync(id);
-            _context.Question.Remove((QuizLibrary.Question)question);
+            _context.Question.Remove((CoreAPI.Question)question);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool QuestionExists(string id)
         {
-            return _context.Question.Any(e => e.QuestionId == id);
+            return _context.Question.Any(e => e.QuestionId.Equals(id));
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using QuizLibrary;
+using CoreAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -75,5 +75,38 @@ namespace CoreMVC.Controllers
 
             return res;
         }
+
+        public async Task<HttpResponseMessage> PostAsync(string url, Question JSONQues) 
+        {
+            var content = JsonConvert.SerializeObject(JSONQues);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(content);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage res = client.PostAsync(BaseURL+url, byteContent).Result;
+
+            if (res.IsSuccessStatusCode)
+            {
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(string url)
+        {
+            HttpResponseMessage res = client.DeleteAsync(BaseURL + url).Result;
+
+            if (res.IsSuccessStatusCode)
+            {
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+        }
     }
 }

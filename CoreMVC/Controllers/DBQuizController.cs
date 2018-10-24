@@ -16,11 +16,9 @@ namespace CoreMVC.Controllers
 {
     public class DBQuizController : Controller
     {
-        private readonly string BaseURL = "https://localhost:44347/";
         private readonly IDBClient _client;
-        HttpClient client;
 
-        public DBQuizController(IDBClient client)//(IQuiz Quiz)
+        public DBQuizController(IDBClient client)
         {
             _client = client;
         }
@@ -30,7 +28,6 @@ namespace CoreMVC.Controllers
         public async Task<ActionResult> Index()
         {
             List<Question> questions = new List<Question>();
-            //string res = await _client.GetData(@"/api/QuizDB");
             HttpResponseMessage res = await _client.GetData(@"/api/QuizDB");
             if (res.IsSuccessStatusCode)
             {
@@ -84,36 +81,67 @@ namespace CoreMVC.Controllers
                 }
             }
             return RedirectToAction("Index");
-            //return View(question);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Question() { Time=DateTime.UtcNow});
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("QuestionId,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
-        //{
-        //    var content = JsonConvert.SerializeObject(question);
-        //    var buffer = System.Text.Encoding.UTF8.GetBytes(content);
-        //    var byteContent = new ByteArrayContent(buffer);
-        //    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("QuizId,Question_statement,Time,CorrectAnswer,Options,Question_type")] Question question)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultContent = await _client.PostAsync("api/QuizDB", question);
+                if (resultContent.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index", "DBQuiz");
+                }
+                return RedirectToAction("Create", "DBQuiz");
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        var resultContent = await client.PostAsync("api/QuizDB", byteContent);
-        //        return RedirectToAction("Index", "DBQuiz");
-        //    }
+            return View(question);
+        }
 
-        //    return View(question);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            HttpResponseMessage res = await _client.GetDataEdit(String.Format(@"/api/QuizDB/{0}", id));
+            Question question = new Question();
+            if (res.IsSuccessStatusCode)
+            {
+                string response = res.Content.ReadAsStringAsync().Result;
+                question = JsonConvert.DeserializeObject<Question>(response);
+            }
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+            return View(question);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                var resultContent = await _client.PostAsync(String.Format(@"/api/QuizDB/{0}", id));
+                if (resultContent.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            return RedirectToAction("Index");
+        }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Basic application showing implementation of MVC, Web API and EntityFramework.";
 
             return View();
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Questions List";
 }
 
-<h2>View</h2>
+<h2>DB Question List </h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.Question_type)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.QuestionId}) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { id=item.QuestionId }) 
             </td>
         </tr>
 }

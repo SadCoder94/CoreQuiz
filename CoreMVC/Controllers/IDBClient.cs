@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CoreAPI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,8 @@ namespace CoreMVC.Controllers
         Task<HttpResponseMessage> GetData(string url);
         Task<HttpResponseMessage> GetDataEdit(string url);
         Task<HttpResponseMessage> PutAsJsonAsync<Question>(string url, Question JSONQues);
+        Task<HttpResponseMessage> PostAsync(string url, Question JSONQues);
+        Task<HttpResponseMessage> PostAsync(string url);
+
     }
 }

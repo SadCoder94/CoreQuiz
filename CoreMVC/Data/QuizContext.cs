@@ -12,6 +12,6 @@ namespace CoreMVC.Models
         //{
         //}
 
-        public List<QuizLibrary.Question> Questions { get; set; }
+        public List<CoreAPI.Question> Questions { get; set; }
     }
 }
