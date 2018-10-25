@@ -21,12 +21,27 @@ namespace CoreMVC.Tests.Controller
             return responseMessage;
         }
 
-        public Task<HttpResponseMessage> GetDataEdit(string url)
+        public async Task<HttpResponseMessage> GetDataEdit(string url)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage responseMessage = new HttpResponseMessage
+            {
+                Content = new StringContent(res),
+                StatusCode = System.Net.HttpStatusCode.OK
+            };
+            return responseMessage;
         }
 
-        public Task<HttpResponseMessage> PostAsync(string url, Question JSONQues)
+        public async Task<HttpResponseMessage> PostAsync(string url, Question JSONQues)
+        {
+            HttpResponseMessage responseMessage = new HttpResponseMessage
+            {
+                Content = new StringContent(res),
+                StatusCode = System.Net.HttpStatusCode.OK
+            };
+            return responseMessage;
+        }
+
+        public Task<HttpResponseMessage> PostAsync(string url)
         {
             throw new NotImplementedException();
         }

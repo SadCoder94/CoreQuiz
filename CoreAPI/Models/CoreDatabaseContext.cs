@@ -12,20 +12,20 @@ namespace CoreAPI
         {
         }
 
-        public CoreDatabaseContext(DbContextOptions<CoreDatabaseContext> options)
-            : base(options)
+        public CoreDatabaseContext(DbContextOptions<CoreDatabaseContext> options): base(options)
         {
         }
 
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Quiz> Quiz { get; set; }
+        public DbSet<Question> Question_set { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+                                                .SetBasePath(Directory.GetCurrentDirectory())
+                                                .AddJsonFile("appsettings.json")
+                                                .Build();
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("DatabaseConnectionString"));
@@ -40,13 +40,13 @@ namespace CoreAPI
                 entity.Property(e => e.Question_type).HasColumnName("QuestionType");
 
                 entity.Property(e => e.Time)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                      .HasColumnType("datetime")
+                      .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.Quiz)
-                    .WithMany(p => p.Question)
-                    .HasForeignKey(d => d.QuizId)
-                    .HasConstraintName("FK_QuizId");
+                      .WithMany(p => p.Question)
+                      .HasForeignKey(d => d.QuizId)
+                      .HasConstraintName("FK_QuizId");
 
                 entity.HasKey(c => c.QuestionId);
 
@@ -59,6 +59,5 @@ namespace CoreAPI
             
         }
 
-        public DbSet<Question> Question_set { get; set; }
     }
 }

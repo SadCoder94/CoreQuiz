@@ -26,7 +26,10 @@ namespace CoreAPI.Controllers
         [HttpGet]
         public IEnumerable<Question> GetQuestion()
         {
-            return _context.Question_set;
+            //return _context.Question_set;
+            return _context.Question_set
+                           .FromSql("Select * from Question")
+                           .ToList();
         }
 
         // GET: api/DBQuestions/5
@@ -38,7 +41,14 @@ namespace CoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var question = await _context.Question_set.FindAsync(id);
+            //var question = _context.Question_set
+            //                        .FromSql($"Select * from Question where QuestionId = {id}")
+            //                        .ToList()[0];
+            var question = _context.Question_set
+                                    .FromSql($"dbo.GetQuestion {id}")
+                                    .ToList()[0];
+
+            //var question = await _context.Question_set.FindAsync(id);
 
             if (question == null)
             {
@@ -68,7 +78,7 @@ namespace CoreAPI.Controllers
             {
                 var stat = await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException exception)
+            catch (DbUpdateException)
             {
                 if (!QuestionExists(id))
                 {

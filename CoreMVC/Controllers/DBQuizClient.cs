@@ -38,19 +38,6 @@ namespace CoreMVC.Controllers
 
         }
 
-        //public async Task<string> GetData(string url)
-        //{
-        //    HttpResponseMessage res = await client.GetAsync(BaseURL+url);
-        //    //if (res.IsSuccessStatusCode)
-        //        return await res.Content.ReadAsStringAsync();
-
-        //    //    var response = res.Content.ReadAsStringAsync().Result;
-        //    //    List<Question> questions = JsonConvert.DeserializeObject<List<Question>>(response);
-
-        //    //return res;
-
-        //}
-
         public async Task<HttpResponseMessage> PutAsJsonAsync<Question>(string url, Question JSONQues)
         {
             HttpResponseMessage res = client.PutAsJsonAsync(url, JSONQues).Result;

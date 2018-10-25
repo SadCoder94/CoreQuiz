@@ -33,8 +33,8 @@ namespace CoreMVC.Tests.Controller
                 Question_type="Objective",
                 Quiz=null,
                 QuizId=2
-
             };
+
             newQuesList.Add(newQues);
 
             TestClient testclient = new TestClient()
@@ -46,7 +46,7 @@ namespace CoreMVC.Tests.Controller
         }
         
         [Fact]
-        public async Task CheckIndexReturn()
+        public async Task CheckIndex()
         {
             //Arrange
 
