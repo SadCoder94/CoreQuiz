@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DscQuiz">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=pxc5ydevqa.database.secure.windows.net;Initial Catalog=PracticeDB</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>c3896e6e-fd01-4d6a-8aaa-f277b2b4f1e6</DataSourceID>
+</RptDataSource>
