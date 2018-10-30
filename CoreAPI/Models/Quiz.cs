@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoreAPI
 {
@@ -9,7 +10,7 @@ namespace CoreAPI
         {
             Question = new HashSet<Question>();
         }
-
+        [Key]
         public int QuizId { get; set; }
         public string QuizName { get; set; }
 

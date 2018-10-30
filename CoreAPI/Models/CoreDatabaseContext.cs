@@ -8,17 +8,17 @@ namespace CoreAPI
 {
     public partial class CoreDatabaseContext : DbContext
     {
-        public CoreDatabaseContext()
-        {
-        }
+        //public CoreDatabaseContext()
+        //{
+        //}
 
-        public CoreDatabaseContext(DbContextOptions<CoreDatabaseContext> options): base(options)
+        public CoreDatabaseContext(DbContextOptions<CoreDatabaseContext> options) : base(options)
         {
         }
 
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Quiz> Quiz { get; set; }
-        public DbSet<Question> Question_set { get; set; }
+        //public DbSet<Question> Question_set { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -51,12 +51,12 @@ namespace CoreAPI
                 entity.HasKey(c => c.QuestionId);
 
             });
-            
+
             modelBuilder.Entity<Quiz>(entity =>
             {
                 entity.Property(e => e.QuizId).IsRequired();
             });
-            
+
         }
 
     }

@@ -38,7 +38,7 @@ namespace CoreMVC.Controllers
 
         }
 
-        public async Task<HttpResponseMessage> PutAsJsonAsync<Question>(string url, Question JSONQues)
+        public async Task<HttpResponseMessage> PutAsJsonAsync<Question>(string url, Question JSONQues)//Send edited question
         {
             HttpResponseMessage res = client.PutAsJsonAsync(url, JSONQues).Result;
 
@@ -63,7 +63,7 @@ namespace CoreMVC.Controllers
             return res;
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string url, Question JSONQues) 
+        public async Task<HttpResponseMessage> PostAsync(string url, Question JSONQues)//To create question
         {
             var content = JsonConvert.SerializeObject(JSONQues);
             var buffer = System.Text.Encoding.UTF8.GetBytes(content);
@@ -82,7 +82,7 @@ namespace CoreMVC.Controllers
             }
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string url)
+        public async Task<HttpResponseMessage> PostAsync(string url)//To delete question
         {
             HttpResponseMessage res = client.DeleteAsync(BaseURL + url).Result;
 
@@ -95,5 +95,6 @@ namespace CoreMVC.Controllers
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
         }
+
     }
 }

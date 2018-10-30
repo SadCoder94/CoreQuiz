@@ -27,8 +27,8 @@ namespace CoreAPI.Controllers
         public IEnumerable<Question> GetQuestion()
         {
             //return _context.Question_set;
-            return _context.Question_set
-                           .FromSql("Select * from Question")
+            return _context.Question
+                           .FromSql("Select * from dbo.Question")
                            .ToList();
         }
 
@@ -36,6 +36,8 @@ namespace CoreAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestion([FromRoute] int id)
         {
+            var question=new Question();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -44,10 +46,16 @@ namespace CoreAPI.Controllers
             //var question = _context.Question_set
             //                        .FromSql($"Select * from Question where QuestionId = {id}")
             //                        .ToList()[0];
-            var question = _context.Question_set
-                                    .FromSql($"dbo.GetQuestion {id}")
-                                    .ToList()[0];
-
+            try
+            {
+                question = _context.Question
+                                        .FromSql($"GetBasicQuestionById {id}")
+                                        .ToList()[0];
+            }
+            catch(Exception e)
+            {
+                return NoContent();
+            }
             //var question = await _context.Question_set.FindAsync(id);
 
             if (question == null)
@@ -102,7 +110,7 @@ namespace CoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Question_set.Add(question);
+            _context.Question.Add(question);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetQuestion", new { id = question.QuestionId }, question);
@@ -117,13 +125,13 @@ namespace CoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var question = await _context.Question_set.FindAsync(id);
+            var question = await _context.Question.FindAsync(id);
             if (question == null)
             {
                 return NotFound();
             }
 
-            _context.Question_set.Remove(question);
+            _context.Question.Remove(question);
             await _context.SaveChangesAsync();
 
             return Ok(question);
@@ -131,7 +139,7 @@ namespace CoreAPI.Controllers
 
         private bool QuestionExists(int id)
         {
-            return _context.Question_set.Any(e => e.QuestionId.Equals(id));
+            return _context.Question.Any(e => e.QuestionId.Equals(id));
         }
     }
 }

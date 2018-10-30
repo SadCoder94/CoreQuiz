@@ -11,6 +11,8 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using Microsoft.Reporting.WebForms;
+using System.Web;
 
 namespace CoreMVC.Controllers
 {
@@ -109,22 +111,20 @@ namespace CoreMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            HttpResponseMessage res = await _client.GetDataEdit(String.Format(@"/api/QuizDB/{0}", id));
+            HttpResponseMessage res = await _client.PostAsync(String.Format(@"/api/QuizDB/{0}", id));
             Question question = new Question();
             if (res.IsSuccessStatusCode)
             {
-                string response = res.Content.ReadAsStringAsync().Result;
-                question = JsonConvert.DeserializeObject<Question>(response);
+                return RedirectToAction("Index");
             }
-
-            if (question == null)
+            else
             {
-                return NotFound();
+                return BadRequest();
             }
-            return View(question);
+            
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             
@@ -137,6 +137,12 @@ namespace CoreMVC.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult QuizReport()
+        {
+            return Ok();
+
         }
 
         public IActionResult About()
